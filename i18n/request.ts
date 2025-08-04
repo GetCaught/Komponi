@@ -8,11 +8,24 @@ export const defaultLocale = 'da' as const;
 export type Locale = (typeof locales)[number];
 
 export default getRequestConfig(async ({ locale }) => {
-  // Validate that the incoming `locale` parameter is valid
-  if (!locales.includes(locale as any)) notFound();
+  console.log('🌐 i18n getRequestConfig called with locale:', locale);
+  console.log('🌐 Available locales:', locales);
+  console.log('🌐 Default locale:', defaultLocale);
+  
+  // If locale is undefined or invalid, use the default locale
+  if (!locale || !locales.includes(locale as any)) {
+    console.log('❌ Invalid locale, using default:', locale);
+    locale = defaultLocale;
+  }
 
-  return {
-    locale: locale as string,
-    messages: (await import(`../messages/${locale}.json`)).default
-  };
-}); 
+  try {
+    const messages = (await import(`../messages/${locale}.json`)).default;
+    return {
+      locale: locale as string,
+      messages
+    };
+  } catch (error) {
+    console.error(`Failed to load messages for locale ${locale}:`, error);
+    notFound();
+  }
+});

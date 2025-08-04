@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "InfluencerHub - Forbind influencere med fantastiske muligheder",
+  title: "Komponi - Forbind influencere med fantastiske muligheder",
   description: "Den førende platform for influencere og virksomheder til at samarbejde om spændende kampagner.",
 };
 

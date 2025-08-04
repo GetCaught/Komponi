@@ -1,4 +1,4 @@
-# InfluencerHub - Influencer Collaboration Portal
+# Komponi - Influencer Collaboration Portal
 
 A modern web application built for connecting influencers with companies for collaboration opportunities. Built with Next.js 14, Supabase, TypeScript, and TailwindCSS.
 

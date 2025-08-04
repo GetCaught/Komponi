@@ -37,7 +37,7 @@
     "support": "Support",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
-    "copyright": "© 2024 InfluencerHub. All rights reserved."
+    "copyright": "© 2024 Komponi. All rights reserved."
   },
   "navigation": {
     "home": "Home",
@@ -82,7 +82,7 @@
       "joinAsCompany": "Join as Company"
     },
     "features": {
-      "title": "Why Choose InfluencerHub?",
+      "title": "Why Choose Komponi?",
       "subtitle": "Everything you need to succeed in influencer marketing",
       "forInfluencers": "For Influencers",
       "forCompanies": "For Companies",
@@ -108,7 +108,7 @@
     },
     "cta": {
       "title": "Ready to Get Started?",
-      "description": "Join thousands of influencers and companies already using InfluencerHub",
+      "description": "Join thousands of influencers and companies already using Komponi",
       "createAccount": "Create Account",
       "browseCampaigns": "Browse Campaigns"
     },
