@@ -2,7 +2,8 @@
 
 import { InfluencerProfile } from '@/lib/supabase'
 import Link from 'next/link'
-import Card from '../ui/Card'
+import Image from 'next/image'
+import { Star, MapPin, Users, TrendingUp } from 'lucide-react'
 
 interface InfluencerCardProps {
   influencer: InfluencerProfile
@@ -23,85 +24,92 @@ export default function InfluencerCard({
   }
 
   return (
-    <Card>
-      <div className="flex items-start space-x-4 mb-4">
-        <div className="flex-shrink-0">
-          <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center">
+    <div className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-200 group">
+      {/* Header with gradient background */}
+      <div className="h-24 bg-gradient-to-r from-purple-100 via-pink-100 to-blue-100 relative">
+        <div className="absolute -bottom-6 left-4">
+          <div className="w-12 h-12 bg-white rounded-full p-1 shadow-md">
             {influencer.avatar_url ? (
-              <img
+              <Image
                 src={influencer.avatar_url}
                 alt={influencer.full_name}
-                className="w-16 h-16 rounded-full object-cover"
+                width={40}
+                height={40}
+                className="w-full h-full rounded-full object-cover"
               />
             ) : (
-              <span className="text-2xl font-bold text-indigo-600">
-                {influencer.full_name.charAt(0).toUpperCase()}
-              </span>
+              <div className="w-full h-full bg-indigo-100 rounded-full flex items-center justify-center">
+                <span className="text-sm font-bold text-indigo-600">
+                  {influencer.full_name.charAt(0).toUpperCase()}
+                </span>
+              </div>
             )}
           </div>
         </div>
-        
-        <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-semibold text-gray-900 mb-1">
+        {influencer.categories && influencer.categories.length > 0 && (
+          <div className="absolute top-3 right-3">
+            <span className="px-2 py-1 bg-white bg-opacity-90 text-xs font-medium text-gray-700 rounded-full">
+              {influencer.categories[0]}
+            </span>
+          </div>
+        )}
+      </div>
+      
+      <div className="p-4 pt-8">
+        {/* Influencer info */}
+        <div className="mb-3">
+          <h3 className="text-lg font-semibold text-gray-900 mb-1 group-hover:text-green-600 transition-colors">
             {influencer.full_name}
           </h3>
-          <p className="text-sm text-gray-600 mb-2">
-            {influencer.location || 'Location not specified'}
-          </p>
           
-          {influencer.categories && influencer.categories.length > 0 && (
-            <div className="flex flex-wrap gap-1 mb-2">
-              {influencer.categories.slice(0, 3).map((category, index) => (
-                <span
-                  key={index}
-                  className="px-2 py-1 text-xs font-medium bg-indigo-100 text-indigo-800 rounded-full"
-                >
-                  {category}
-                </span>
-              ))}
-              {influencer.categories.length > 3 && (
-                <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full">
-                  +{influencer.categories.length - 3} more
-                </span>
-              )}
+          <div className="flex items-center text-sm text-gray-600 mb-2">
+            <MapPin className="w-3 h-3 mr-1" />
+            <span>{influencer.location || 'Location not specified'}</span>
+          </div>
+          
+          <div className="flex items-center text-sm">
+            <div className="flex items-center">
+              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400 mr-1" />
+              <span className="font-medium">4.9</span>
+              <span className="text-gray-500 ml-1">(247 reviews)</span>
             </div>
-          )}
+          </div>
         </div>
-      </div>
 
-      {influencer.bio && (
-        <p className="text-gray-700 mb-4 line-clamp-2">
-          {influencer.bio}
-        </p>
-      )}
-
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        <div>
-          <p className="text-sm font-medium text-gray-500">Followers</p>
-          <p className="text-lg font-semibold text-gray-900">
-            {formatNumber(influencer.followers_count)}
+        {/* Bio */}
+        {influencer.bio && (
+          <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+            {influencer.bio}
           </p>
-        </div>
-        <div>
-          <p className="text-sm font-medium text-gray-500">Engagement</p>
-          <p className="text-lg font-semibold text-green-600">
-            {influencer.engagement_rate ? `${influencer.engagement_rate}%` : 'N/A'}
-          </p>
-        </div>
-      </div>
+        )}
 
-      {influencer.social_media_handles && (
-        <div className="mb-4">
-          <p className="text-sm font-medium text-gray-500 mb-2">Social Media</p>
-          <div className="flex space-x-3">
+        {/* Stats */}
+        <div className="grid grid-cols-2 gap-3 mb-4">
+          <div className="text-center p-2 bg-gray-50 rounded-lg">
+            <Users className="w-4 h-4 text-gray-600 mx-auto mb-1" />
+            <div className="text-lg font-bold text-gray-900">{formatNumber(influencer.followers_count)}</div>
+            <div className="text-xs text-gray-500">Followers</div>
+          </div>
+          <div className="text-center p-2 bg-gray-50 rounded-lg">
+            <TrendingUp className="w-4 h-4 text-green-600 mx-auto mb-1" />
+            <div className="text-lg font-bold text-green-600">
+              {influencer.engagement_rate ? `${influencer.engagement_rate}%` : 'N/A'}
+            </div>
+            <div className="text-xs text-gray-500">Engagement</div>
+          </div>
+        </div>
+
+        {/* Social Media Icons */}
+        {influencer.social_media_handles && (
+          <div className="flex justify-center space-x-3 mb-4">
             {influencer.social_media_handles.instagram && (
               <a
                 href={`https://instagram.com/${influencer.social_media_handles.instagram}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-pink-600 hover:text-pink-700"
+                className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform"
               >
-                Instagram
+                <span className="text-xs font-bold">IG</span>
               </a>
             )}
             {influencer.social_media_handles.tiktok && (
@@ -109,9 +117,9 @@ export default function InfluencerCard({
                 href={`https://tiktok.com/@${influencer.social_media_handles.tiktok}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-black hover:text-gray-700"
+                className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform"
               >
-                TikTok
+                <span className="text-xs font-bold">TT</span>
               </a>
             )}
             {influencer.social_media_handles.youtube && (
@@ -119,9 +127,9 @@ export default function InfluencerCard({
                 href={`https://youtube.com/${influencer.social_media_handles.youtube}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-red-600 hover:text-red-700"
+                className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform"
               >
-                YouTube
+                <span className="text-xs font-bold">YT</span>
               </a>
             )}
             {influencer.social_media_handles.twitter && (
@@ -129,33 +137,34 @@ export default function InfluencerCard({
                 href={`https://twitter.com/${influencer.social_media_handles.twitter}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-700"
+                className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform"
               >
-                Twitter
+                <span className="text-xs font-bold">TW</span>
               </a>
             )}
           </div>
-        </div>
-      )}
+        )}
 
-      {showActions && (
-        <div className="flex justify-between items-center">
-          <Link
-            href={`/influencers/${influencer.id}`}
-            className="px-4 py-2 text-sm font-medium text-indigo-600 hover:text-indigo-500"
-          >
-            View Profile
-          </Link>
-          {onContact && (
-            <button
-              onClick={() => onContact(influencer.id)}
-              className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md transition-colors"
+        {/* Action buttons */}
+        {showActions && (
+          <div className="flex gap-2">
+            <Link
+              href={`/influencers/${influencer.id}`}
+              className="flex-1 text-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 border border-gray-300 hover:border-gray-400 rounded-md transition-colors"
             >
-              Contact
-            </button>
-          )}
-        </div>
-      )}
-    </Card>
+              View Profile
+            </Link>
+            {onContact && (
+              <button
+                onClick={() => onContact(influencer.id)}
+                className="flex-1 px-3 py-2 text-sm font-medium text-white bg-green-500 hover:bg-green-600 rounded-md transition-colors"
+              >
+                Contact
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
   )
 }

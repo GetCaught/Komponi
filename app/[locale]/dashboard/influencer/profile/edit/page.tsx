@@ -2,11 +2,10 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { supabase, InfluencerProfile } from '@/lib/supabase'
-import { useI18n } from '@/config/i18n'
+import { supabase } from '@/lib/supabase'
+import { useTranslations } from 'next-intl'
 
 export default function EditInfluencerProfile() {
-  const [profile, setProfile] = useState<InfluencerProfile | null>(null)
   const [loading, setLoading] = useState(true)
   const [fullName, setFullName] = useState('')
   const [niche, setNiche] = useState('')
@@ -17,7 +16,7 @@ export default function EditInfluencerProfile() {
   const [tiktokUrl, setTiktokUrl] = useState('')
   const [profilePictureUrl, setProfilePictureUrl] = useState('')
   const router = useRouter()
-  const { t } = useI18n()
+  const t = useTranslations()
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -36,7 +35,6 @@ export default function EditInfluencerProfile() {
 
         if (error) throw error
 
-        setProfile(data)
         setFullName(data.full_name || '')
         setNiche(data.niche || '')
         setBio(data.bio || '')

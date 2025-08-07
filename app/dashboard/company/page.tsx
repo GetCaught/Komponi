@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase, CompanyProfile, Campaign, Application, InfluencerProfile } from '@/lib/supabase'
-import InfluencerCard from '@/components/InfluencerCard'
+import InfluencerCard from '@/components/(common)/InfluencerCard'
 import Link from 'next/link'
 
 export default function CompanyDashboard() {
@@ -91,6 +91,7 @@ export default function CompanyDashboard() {
 
   const handleContact = async (influencerId: string) => {
     // This would typically open a chat or contact form
+    console.log('Contact influencer:', influencerId)
     alert('Contact functionality coming soon!')
   }
 
@@ -331,7 +332,7 @@ export default function CompanyDashboard() {
           </div>
           {campaigns.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-gray-500">You haven't created any campaigns yet.</p>
+              <p className="text-gray-500">You haven&apos;t created any campaigns yet.</p>
               <Link
                 href="/campaigns/create"
                 className="mt-4 inline-block px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md"

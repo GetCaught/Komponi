@@ -2,10 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { supabase, Profile } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase'
 
 export default function DashboardPage() {
-  const [profile, setProfile] = useState<Profile | null>(null)
   const [loading, setLoading] = useState(true)
   const router = useRouter()
 
@@ -27,7 +26,6 @@ export default function DashboardPage() {
 
         if (error) throw error
 
-        setProfile(profileData)
         
         // Redirect based on role
         if (profileData.role === 'influencer') {

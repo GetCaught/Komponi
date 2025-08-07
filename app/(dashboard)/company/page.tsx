@@ -2,15 +2,13 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { supabase, CompanyProfile, Campaign, Application, InfluencerProfile } from '@/lib/supabase'
 import InfluencerCard from '@/components/(common)/InfluencerCard'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
-  title: "Company Dashboard",
-};
-
 export default function CompanyDashboard() {
+  const t = useTranslations()
   const [profile, setProfile] = useState<CompanyProfile | null>(null)
   const [campaigns, setCampaigns] = useState<Campaign[]>([])
   const [applications, setApplications] = useState<Application[]>([])
@@ -94,7 +92,7 @@ export default function CompanyDashboard() {
   }, [router])
 
   const handleContact = async (influencerId: string) => {
-    // This would typically open a chat or contact form
+    console.log('Contact influencer:', influencerId)
     alert('Contact functionality coming soon!')
   }
 

@@ -2,18 +2,17 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { supabase, CompanyProfile } from '@/lib/supabase'
-import { useI18n } from '@/config/i18n'
+import { supabase } from '@/lib/supabase'
+import { useTranslations } from 'next-intl'
 
 export default function EditCompanyProfile() {
-  const [profile, setProfile] = useState<CompanyProfile | null>(null)
   const [loading, setLoading] = useState(true)
   const [companyName, setCompanyName] = useState('')
   const [description, setDescription] = useState('')
   const [website, setWebsite] = useState('')
   const [trustpilotUrl, setTrustpilotUrl] = useState('')
   const router = useRouter()
-  const { t } = useI18n()
+  const t = useTranslations()
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -32,7 +31,6 @@ export default function EditCompanyProfile() {
 
         if (error) throw error
 
-        setProfile(data)
         setCompanyName(data.company_name || '')
         setDescription(data.description || '')
         setWebsite(data.website || '')

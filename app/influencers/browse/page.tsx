@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { supabase, InfluencerProfile, Category } from '../../lib/supabase'
-import InfluencerCard from '../../components/(common)/InfluencerCard'
+import { supabase, InfluencerProfile, Category } from '@/lib/supabase'
+import InfluencerCard from '@/components/(common)/InfluencerCard'
 import { Search, Filter } from 'lucide-react'
 
 export default function BrowseInfluencersPage() {

@@ -50,16 +50,6 @@
     "reject": "Reject",
     "actions": "Actions"
   },
-    "contactFunctionalityComingSoon": "Contact functionality coming soon!",
-    "applicationStatusUpdated": "Application {status}!",
-    "failedToUpdateApplication": "Failed to update application",
-    "status": "Status",
-    "applied": "Applied",
-    "viewDetails": "View Details",
-    "accept": "Accept",
-    "reject": "Reject",
-    "actions": "Actions"
-  },
   "navigation": {
     "home": "Home",
     "dashboard": "Dashboard",

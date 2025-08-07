@@ -2,15 +2,13 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { supabase, InfluencerProfile, Campaign, Application } from '@/lib/supabase'
 import CampaignCard from '@/components/(common)/CampaignCard'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
-  title: "Influencer Dashboard",
-};
-
 export default function InfluencerDashboard() {
+  const t = useTranslations()
   const [profile, setProfile] = useState<InfluencerProfile | null>(null)
   const [campaigns, setCampaigns] = useState<Campaign[]>([])
   const [applications, setApplications] = useState<Application[]>([])

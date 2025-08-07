@@ -17,6 +17,20 @@ export interface Profile {
   location?: string
   created_at: string
   updated_at: string
+  // Influencer-specific fields (optional for companies)
+  followers_count?: number
+  engagement_rate?: number
+  categories?: string[]
+  social_media_handles?: {
+    instagram?: string
+    tiktok?: string
+    youtube?: string
+    twitter?: string
+  }
+  // Company-specific fields (optional for influencers)
+  company_name?: string
+  industry?: string
+  company_size?: string
 }
 
 export interface InfluencerProfile extends Profile {

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { supabase, Profile, InfluencerProfile, CompanyProfile, Category } from '@/lib/supabase'
+import { supabase, Profile, Category } from '@/lib/supabase'
 
 export default function EditProfilePage() {
   const [profile, setProfile] = useState<Profile | null>(null)
@@ -109,7 +109,7 @@ export default function EditProfilePage() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
 
-      const updateData: any = {
+      const updateData: Partial<Profile> = {
         full_name: fullName,
         bio,
         website,
@@ -119,8 +119,8 @@ export default function EditProfilePage() {
       }
 
       if (profile?.role === 'influencer') {
-        updateData.followers_count = followersCount ? parseInt(followersCount) : null
-        updateData.engagement_rate = engagementRate ? parseFloat(engagementRate) : null
+        updateData.followers_count = followersCount ? parseInt(followersCount) : undefined
+        updateData.engagement_rate = engagementRate ? parseFloat(engagementRate) : undefined
         updateData.categories = selectedCategories
         updateData.social_media_handles = socialMedia
       } else if (profile?.role === 'company') {
@@ -138,8 +138,8 @@ export default function EditProfilePage() {
 
       alert('Profile updated successfully!')
       router.push('/dashboard')
-    } catch (error: any) {
-      setError(error.message)
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'An unexpected error occurred')
     } finally {
       setSaving(false)
     }

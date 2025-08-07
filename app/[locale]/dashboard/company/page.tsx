@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { supabase, CompanyProfile, Campaign, Application, InfluencerProfile } from '@/lib/supabase'
-import InfluencerCard from '@/components/InfluencerCard'
+import InfluencerCard from '@/components/(common)/InfluencerCard'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 
@@ -97,6 +97,7 @@ export default function CompanyDashboard() {
 
   const handleContact = async (influencerId: string) => {
     // This would typically open a chat or contact form
+    console.log('Contact influencer:', influencerId)
     alert(tCommon('contactFunctionalityComingSoon'))
   }
 

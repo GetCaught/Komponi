@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { supabase, Campaign, Category } from '@/lib/supabase'
-import CampaignCard from '@/components/CampaignCard'
+import CampaignCard from '@/components/(common)/CampaignCard'
 import { useTranslations } from 'next-intl'
 
 export default function BrowseCampaignsPage() {
@@ -13,31 +13,7 @@ export default function BrowseCampaignsPage() {
   const [loading, setLoading] = useState(true)
   const t = useTranslations()
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch categories
-        const { data: categoriesData, error: categoriesError } = await supabase
-          .from('categories')
-          .select('*')
-          .order('name')
-
-        if (categoriesError) throw categoriesError
-        setCategories(categoriesData || [])
-
-        // Fetch campaigns
-        await fetchCampaigns()
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchData()
-  }, [])
-
-  const fetchCampaigns = async () => {
+  const fetchCampaigns = useCallback(async () => {
     try {
       let query = supabase
         .from('campaigns')
@@ -63,11 +39,35 @@ export default function BrowseCampaignsPage() {
     } catch (error) {
       console.error('Error fetching campaigns:', error)
     }
-  }
+  }, [selectedCategory, searchTerm])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch categories
+        const { data: categoriesData, error: categoriesError } = await supabase
+          .from('categories')
+          .select('*')
+          .order('name')
+
+        if (categoriesError) throw categoriesError
+        setCategories(categoriesData || [])
+
+        // Fetch campaigns
+        await fetchCampaigns()
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [fetchCampaigns])
 
   useEffect(() => {
     fetchCampaigns()
-  }, [selectedCategory, searchTerm])
+  }, [fetchCampaigns])
 
   const handleApply = async (campaignId: string) => {
     try {

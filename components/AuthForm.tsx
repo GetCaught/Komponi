@@ -67,8 +67,8 @@ export default function AuthForm({ mode }: AuthFormProps) {
       }
 
       router.push('/dashboard')
-    } catch (error: any) {
-      setError(error.message)
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'An unexpected error occurred')
     } finally {
       setLoading(false)
     }

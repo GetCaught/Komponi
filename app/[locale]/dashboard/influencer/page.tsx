@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { supabase, InfluencerProfile, Campaign, Application } from '@/lib/supabase'
-import CampaignCard from '@/components/CampaignCard'
+import CampaignCard from '@/components/(common)/CampaignCard'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 
