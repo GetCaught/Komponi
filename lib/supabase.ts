@@ -24,12 +24,10 @@ export interface InfluencerProfile extends Profile {
   followers_count?: number
   engagement_rate?: number
   categories?: string[]
-  social_media_handles?: {
-    instagram?: string
-    tiktok?: string
-    youtube?: string
-    twitter?: string
-  }
+  instagram_url?: string
+  youtube_url?: string
+  tiktok_url?: string
+  profile_picture_url?: string
 }
 
 export interface CompanyProfile extends Profile {
@@ -37,6 +35,7 @@ export interface CompanyProfile extends Profile {
   company_name: string
   industry?: string
   company_size?: string
+  trustpilot_url?: string
 }
 
 export interface Category {

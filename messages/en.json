@@ -37,7 +37,28 @@
     "support": "Support",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
-    "copyright": "© 2024 Komponi. All rights reserved."
+    "copyright": "© 2024 Komponi. All rights reserved.",
+    "saving": "Saving...",
+    "saveChanges": "Save Changes",
+    "contactFunctionalityComingSoon": "Contact functionality coming soon!",
+    "applicationStatusUpdated": "Application {status}!",
+    "failedToUpdateApplication": "Failed to update application",
+    "status": "Status",
+    "applied": "Applied",
+    "viewDetails": "View Details",
+    "accept": "Accept",
+    "reject": "Reject",
+    "actions": "Actions"
+  },
+    "contactFunctionalityComingSoon": "Contact functionality coming soon!",
+    "applicationStatusUpdated": "Application {status}!",
+    "failedToUpdateApplication": "Failed to update application",
+    "status": "Status",
+    "applied": "Applied",
+    "viewDetails": "View Details",
+    "accept": "Accept",
+    "reject": "Reject",
+    "actions": "Actions"
   },
   "navigation": {
     "home": "Home",
@@ -126,7 +147,7 @@
   "dashboard": {
     "welcome": "Welcome",
     "overview": "Overview",
-    "recentActivity": "Recent Activity",
+    "recentActivity": "Recent Applications",
     "quickActions": "Quick Actions",
     "stats": "Statistics",
     "campaigns": "Campaigns",
@@ -135,7 +156,16 @@
     "earnings": "Earnings",
     "followers": "Followers",
     "engagement": "Engagement",
-    "reach": "Reach"
+    "reach": "Reach",
+    "noActiveCampaigns": "No active campaigns available at the moment.",
+    "activeCampaigns": "Active Campaigns",
+    "pendingReviews": "Pending Reviews",
+    "totalApplications": "Total Applications",
+    "availableCampaigns": "Available Campaigns",
+    "totalCampaigns": "Total Campaigns",
+    "topInfluencers": "Top Influencers",
+    "yourCampaigns": "Your Campaigns",
+    "noCampaignsYet": "You haven't created any campaigns yet."
   },
   "campaigns": {
     "browse": {

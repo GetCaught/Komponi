@@ -1,14 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import { supabase, InfluencerProfile, Campaign, Application } from '@/lib/supabase'
-import CampaignCard from '@/components/(common)/CampaignCard'
+import CampaignCard from '@/components/CampaignCard'
 import Link from 'next/link'
-
-export const metadata: Metadata = {
-  title: "Influencer Dashboard",
-};
+import { useTranslations } from 'next-intl'
 
 export default function InfluencerDashboard() {
   const [profile, setProfile] = useState<InfluencerProfile | null>(null)
@@ -16,6 +13,11 @@ export default function InfluencerDashboard() {
   const [applications, setApplications] = useState<Application[]>([])
   const [loading, setLoading] = useState(true)
   const router = useRouter()
+  const params = useParams()
+  const locale = params.locale as string
+  const t = useTranslations('dashboard')
+  const tCommon = useTranslations('common')
+  const tCampaigns = useTranslations('campaigns')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,7 +25,7 @@ export default function InfluencerDashboard() {
         const { data: { user } } = await supabase.auth.getUser()
         
         if (!user) {
-          router.push('/login')
+          router.push(`/${locale}/login`)
           return
         }
 
@@ -37,7 +39,7 @@ export default function InfluencerDashboard() {
         if (profileError) throw profileError
 
         if (profileData.role !== 'influencer') {
-          router.push('/dashboard')
+          router.push(`/${locale}/dashboard`)
           return
         }
 
@@ -78,14 +80,14 @@ export default function InfluencerDashboard() {
     }
 
     fetchData()
-  }, [router])
+  }, [router, locale])
 
   const handleApply = async (campaignId: string) => {
     try {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
 
-      const pitch = prompt('Please provide a brief pitch for this campaign:')
+      const pitch = prompt(tCampaigns('browse.providePitch'))
       if (!pitch) return
 
       const { error } = await supabase
@@ -112,10 +114,10 @@ export default function InfluencerDashboard() {
         .order('created_at', { ascending: false })
 
       setApplications(applicationsData || [])
-      alert('Application submitted successfully!')
+      alert(tCampaigns('browse.applicationSubmitted'))
     } catch (error) {
       console.error('Error applying:', error)
-      alert('Failed to submit application')
+      alert(tCampaigns('browse.applicationFailed'))
     }
   }
 
@@ -139,21 +141,22 @@ export default function InfluencerDashboard() {
           <div className="flex justify-between items-center py-6">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">
-                Welcome back, {profile?.full_name}!
+                {t('welcome')}, {profile?.full_name}!
               </h1>
+              <p className="text-gray-600">{t('influencerDashboard')}</p>
             </div>
             <div className="flex space-x-4">
               <Link
-                href="/dashboard/influencer/profile/edit"
+                href={`/${locale}/dashboard/influencer/profile/edit`}
                 className="px-4 py-2 text-sm font-medium text-indigo-600 hover:text-indigo-500"
               >
-                Edit Profile
+                {tCommon('editProfile')}
               </Link>
               <button
                 onClick={() => supabase.auth.signOut()}
                 className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-500"
               >
-                Sign Out
+                {tCommon('logout')}
               </button>
             </div>
           </div>
@@ -164,15 +167,15 @@ export default function InfluencerDashboard() {
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-medium text-gray-900">{t('dashboard.totalApplications')}</h3>
+            <h3 className="text-lg font-medium text-gray-900">{t('totalApplications')}</h3>
             <p className="text-3xl font-bold text-indigo-600">{applications.length}</p>
           </div>
           <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-medium text-gray-900">{t('dashboard.activeCampaigns')}</h3>
+            <h3 className="text-lg font-medium text-gray-900">{t('activeCampaigns')}</h3>
             <p className="text-3xl font-bold text-green-600">{campaigns.length}</p>
           </div>
           <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-medium text-gray-900">{t('dashboard.followers')}</h3>
+            <h3 className="text-lg font-medium text-gray-900">{t('followers')}</h3>
             <p className="text-3xl font-bold text-purple-600">
               {profile?.followers_count?.toLocaleString() || 'N/A'}
             </p>
@@ -182,20 +185,20 @@ export default function InfluencerDashboard() {
         {/* Recent Applications */}
         {applications.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('dashboard.recentApplications')}</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('recentApplications')}</h2>
             <div className="bg-white rounded-lg shadow overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Campaign
+                        {tCampaigns('details.campaign')}
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Status
+                        {tCommon('status')}
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Applied
+                        {tCommon('applied')}
                       </th>
                     </tr>
                   </thead>
@@ -235,7 +238,7 @@ export default function InfluencerDashboard() {
 
         {/* Available Campaigns */}
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('dashboard.campaigns')}</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('availableCampaigns')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {campaigns.map((campaign) => (
               <CampaignCard
@@ -248,11 +251,11 @@ export default function InfluencerDashboard() {
           </div>
           {campaigns.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-gray-500">{t('dashboard.noActiveCampaigns')}</p>
+              <p className="text-gray-500">{t('noActiveCampaigns')}</p>
             </div>
           )}
         </div>
       </div>
     </div>
   )
-} 
+}

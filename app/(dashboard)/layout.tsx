@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Komponi - Dashboard",
-  description: "Dashboard for Komponi application.",
+  // title: "Komponi",
+  description: "Komponi application.",
 };
 
 export default async function DashboardLayout({

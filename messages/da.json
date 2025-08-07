@@ -41,7 +41,18 @@
     "general": "Generelt",
     "posted": "Oprettet",
     "viewDetails": "Se detaljer",
-    "applied": "Ansøgt"
+    "applied": "Ansøgt",
+    "saving": "Gemmer...",
+    "saveChanges": "Gem ændringer",
+    "contactFunctionalityComingSoon": "Kontaktfunktionalitet kommer snart!",
+    "applicationStatusUpdated": "Ansøgning {status}!",
+    "failedToUpdateApplication": "Kunne ikke opdatere ansøgning",
+    "status": "Status",
+    "accept": "Accepter",
+    "reject": "Afvis",
+    "actions": "Handlinger",
+    "editProfile": "Rediger profil",
+    "logout": "Log ud"
   },
   "navigation": {
     "home": "Hjem",
@@ -139,7 +150,13 @@
     "earnings": "Indtægter",
     "followers": "Følgere",
     "engagement": "Engagement",
-    "reach": "Rækkevidde"
+    "reach": "Rækkevidde",
+    "influencerDashboard": "Influencer Dashboard",
+    "totalApplications": "Totale Ansøgninger",
+    "activeCampaigns": "Aktive Kampagner",
+    "recentApplications": "Seneste Ansøgninger",
+    "availableCampaigns": "Tilgængelige Kampagner",
+    "noActiveCampaigns": "Ingen aktive kampagner fundet."
   },
   "campaigns": {
     "browse": {
@@ -266,4 +283,4 @@
     "url": "Indtast venligst en gyldig URL",
     "phone": "Indtast venligst et gyldigt telefonnummer"
   }
-} 
+}

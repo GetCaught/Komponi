@@ -1,14 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import { supabase, CompanyProfile, Campaign, Application, InfluencerProfile } from '@/lib/supabase'
-import InfluencerCard from '@/components/(common)/InfluencerCard'
+import InfluencerCard from '@/components/InfluencerCard'
 import Link from 'next/link'
-
-export const metadata: Metadata = {
-  title: "Company Dashboard",
-};
+import { useTranslations } from 'next-intl'
 
 export default function CompanyDashboard() {
   const [profile, setProfile] = useState<CompanyProfile | null>(null)
@@ -17,6 +14,11 @@ export default function CompanyDashboard() {
   const [influencers, setInfluencers] = useState<InfluencerProfile[]>([])
   const [loading, setLoading] = useState(true)
   const router = useRouter()
+  const params = useParams()
+  const locale = params.locale as string
+  const t = useTranslations('dashboard')
+  const tCommon = useTranslations('common')
+  const tCampaigns = useTranslations('campaigns')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +26,7 @@ export default function CompanyDashboard() {
         const { data: { user } } = await supabase.auth.getUser()
         
         if (!user) {
-          router.push('/login')
+          router.push(`/${locale}/login`)
           return
         }
 
@@ -38,7 +40,7 @@ export default function CompanyDashboard() {
         if (profileError) throw profileError
 
         if (profileData.role !== 'company') {
-          router.push('/dashboard')
+          router.push(`/${locale}/dashboard`)
           return
         }
 
@@ -91,11 +93,11 @@ export default function CompanyDashboard() {
     }
 
     fetchData()
-  }, [router])
+  }, [router, locale])
 
   const handleContact = async (influencerId: string) => {
     // This would typically open a chat or contact form
-    alert('Contact functionality coming soon!')
+    alert(tCommon('contactFunctionalityComingSoon'))
   }
 
   const handleApplicationStatus = async (applicationId: string, status: 'accepted' | 'rejected') => {
@@ -119,10 +121,10 @@ export default function CompanyDashboard() {
         .order('created_at', { ascending: false })
 
       setApplications(applicationsData || [])
-      alert(`Application ${status}!`)
+      alert(tCommon('applicationStatusUpdated', { status }))
     } catch (error) {
       console.error('Error updating application:', error)
-      alert('Failed to update application')
+      alert(tCommon('failedToUpdateApplication'))
     }
   }
 
@@ -142,27 +144,28 @@ export default function CompanyDashboard() {
           <div className="flex justify-between items-center py-6">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">
-                Welcome back, {profile?.company_name}!
+                {t('welcomeBack')}, {profile?.company_name}!
               </h1>
+              <p className="text-gray-600">{t('companyDashboard')}</p>
             </div>
             <div className="flex space-x-4">
               <Link
-                href="/campaigns/create"
+                href={`/${locale}/campaigns/create`}
                 className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md"
               >
-                Create Campaign
+                {tCampaigns('create.createCampaign')}
               </Link>
               <Link
-                href="/dashboard/company/profile/edit"
+                href={`/${locale}/dashboard/company/profile/edit`}
                 className="px-4 py-2 text-sm font-medium text-indigo-600 hover:text-indigo-500"
               >
-                Edit Profile
+                {tCommon('editProfile')}
               </Link>
               <button
                 onClick={() => supabase.auth.signOut()}
                 className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-500"
               >
-                Sign Out
+                {tCommon('logout')}
               </button>
             </div>
           </div>
@@ -173,21 +176,21 @@ export default function CompanyDashboard() {
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-medium text-gray-900">{t('dashboard.totalCampaigns')}</h3>
+            <h3 className="text-lg font-medium text-gray-900">{t('totalCampaigns')}</h3>
             <p className="text-3xl font-bold text-indigo-600">{campaigns.length}</p>
           </div>
           <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-medium text-gray-900">{t('dashboard.activeCampaigns')}</h3>
+            <h3 className="text-lg font-medium text-gray-900">{t('activeCampaigns')}</h3>
             <p className="text-3xl font-bold text-green-600">
               {campaigns.filter(c => c.status === 'active').length}
             </p>
           </div>
           <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-medium text-gray-900">{t('dashboard.totalApplications')}</h3>
+            <h3 className="text-lg font-medium text-gray-900">{t('totalApplications')}</h3>
             <p className="text-3xl font-bold text-purple-600">{applications.length}</p>
           </div>
           <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-medium text-gray-900">{t('dashboard.pendingReviews')}</h3>
+            <h3 className="text-lg font-medium text-gray-900">{t('pendingReviews')}</h3>
             <p className="text-3xl font-bold text-yellow-600">
               {applications.filter(a => a.status === 'pending').length}
             </p>
@@ -197,26 +200,26 @@ export default function CompanyDashboard() {
         {/* Recent Applications */}
         {applications.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Recent Applications</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('recentApplications')}</h2>
             <div className="bg-white rounded-lg shadow overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Influencer
+                        {t('influencer')}
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Campaign
+                        {tCampaigns('details.campaign')}
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Status
+                        {tCommon('status')}
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Applied
+                        {tCommon('applied')}
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Actions
+                        {tCommon('actions')}
                       </th>
                     </tr>
                   </thead>
@@ -228,7 +231,7 @@ export default function CompanyDashboard() {
                             {application.influencer?.full_name}
                           </div>
                           <div className="text-sm text-gray-500">
-                            {application.influencer?.followers_count?.toLocaleString()} followers
+                            {application.influencer?.followers_count?.toLocaleString()} {t('followers')}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -257,13 +260,13 @@ export default function CompanyDashboard() {
                                 onClick={() => handleApplicationStatus(application.id, 'accepted')}
                                 className="text-green-600 hover:text-green-900"
                               >
-                                Accept
+                                {tCommon('accept')}
                               </button>
                               <button
                                 onClick={() => handleApplicationStatus(application.id, 'rejected')}
                                 className="text-red-600 hover:text-red-900"
                               >
-                                Reject
+                                {tCommon('reject')}
                               </button>
                             </div>
                           )}
@@ -279,7 +282,7 @@ export default function CompanyDashboard() {
 
         {/* Top Influencers */}
         <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Top Influencers</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('topInfluencers')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {influencers.map((influencer) => (
               <InfluencerCard
@@ -294,12 +297,12 @@ export default function CompanyDashboard() {
         {/* Company's Campaigns */}
         <div>
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-gray-900">Your Campaigns</h2>
+            <h2 className="text-2xl font-bold text-gray-900">{t('yourCampaigns')}</h2>
             <Link
-              href="/campaigns/create"
+              href={`/${locale}/campaigns/create`}
               className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md"
             >
-              Create New Campaign
+              {tCampaigns('create.createCampaign')}
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -323,10 +326,10 @@ export default function CompanyDashboard() {
                     ${campaign.budget_min.toLocaleString()} - ${campaign.budget_max.toLocaleString()}
                   </span>
                   <Link
-                    href={`/campaigns/${campaign.id}`}
+                    href={`/${locale}/campaigns/${campaign.id}`}
                     className="text-indigo-600 hover:text-indigo-500 text-sm font-medium"
                   >
-                    View Details
+                    {tCommon('viewDetails')}
                   </Link>
                 </div>
               </div>
@@ -334,12 +337,12 @@ export default function CompanyDashboard() {
           </div>
           {campaigns.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-gray-500">{t('dashboard.noCampaignsYet')}</p>
+              <p className="text-gray-500">{t('noCampaignsYet')}</p>
               <Link
-                href="/campaigns/create"
+                href={`/${locale}/campaigns/create`}
                 className="mt-4 inline-block px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md"
               >
-                Create Your First Campaign
+                {tCampaigns('create.createCampaign')}
               </Link>
             </div>
           )}
@@ -347,4 +350,4 @@ export default function CompanyDashboard() {
       </div>
     </div>
   )
-} 
+}
