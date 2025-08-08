@@ -1,10 +1,8 @@
 import Link from 'next/link'
-import { useTranslations } from 'next-intl'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 import { Search, Star, Users, TrendingUp, Shield, Clock } from 'lucide-react'
 
 export default function HomePage() {
-  const _t = useTranslations()
 
   return (
     <div className="min-h-screen bg-white">

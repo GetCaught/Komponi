@@ -100,7 +100,7 @@ export default function BrowseCampaignsPage() {
     }
   }
 
-  const isApplied = (_campaignId: string) => {
+  const isApplied = () => {
     // This would need to be implemented with actual application data
     return false
   }

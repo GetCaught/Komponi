@@ -2,7 +2,6 @@
 
 import { Campaign } from '@/lib/supabase'
 import Link from 'next/link'
-import { useTranslations } from 'next-intl'
 import { Star, Clock } from 'lucide-react'
 
 interface CampaignCardProps {
@@ -18,7 +17,6 @@ export default function CampaignCard({
   onApply,
   isApplied = false
 }: CampaignCardProps) {
-  const _t = useTranslations()
   
   
   const formatBudget = (min: number, max: number) => {
