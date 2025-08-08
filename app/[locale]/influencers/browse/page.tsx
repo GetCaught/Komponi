@@ -212,8 +212,8 @@ const mockInfluencers: InfluencerProfile[] = [
 ]
 
 export default function BrowseInfluencersPage() {
-  const [influencers, setInfluencers] = useState<InfluencerProfile[]>(mockInfluencers)
-  const [categories, setCategories] = useState<Category[]>(mockCategories)
+  const [influencers] = useState<InfluencerProfile[]>(mockInfluencers)
+  const [categories] = useState<Category[]>(mockCategories)
   const [selectedCategory, setSelectedCategory] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
 
