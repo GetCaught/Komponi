@@ -1,8 +1,7 @@
-import createNextIntlPlugin from 'next-intl/plugin';
+import createNextIntlPlugin from 'next-intl/plugin'
+import type { NextConfig } from "next"
 
-const withNextIntl = createNextIntlPlugin();
-
-import type { NextConfig } from "next";
+const withNextIntl = createNextIntlPlugin()
 
 const nextConfig: NextConfig = {
   images: {
@@ -11,10 +10,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'images.unsplash.com',
         port: '',
-        pathname: '/**',
+        pathname: '/**'
       }
     ]
   }
-};
+}
 
-export default withNextIntl(nextConfig);
+export default withNextIntl(nextConfig)
