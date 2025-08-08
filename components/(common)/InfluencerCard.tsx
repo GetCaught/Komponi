@@ -32,7 +32,7 @@ export default function InfluencerCard({
             {influencer.avatar_url ? (
               <Image
                 src={influencer.avatar_url}
-                alt={influencer.full_name}
+                alt={influencer.full_name || 'User avatar'}
                 width={40}
                 height={40}
                 className="w-full h-full rounded-full object-cover"
@@ -40,7 +40,7 @@ export default function InfluencerCard({
             ) : (
               <div className="w-full h-full bg-indigo-100 rounded-full flex items-center justify-center">
                 <span className="text-sm font-bold text-indigo-600">
-                  {influencer.full_name.charAt(0).toUpperCase()}
+                  {influencer.full_name?.charAt(0).toUpperCase() || 'U'}
                 </span>
               </div>
             )}
@@ -59,7 +59,7 @@ export default function InfluencerCard({
         {/* Influencer info */}
         <div className="mb-3">
           <h3 className="text-lg font-semibold text-gray-900 mb-1 group-hover:text-green-600 transition-colors">
-            {influencer.full_name}
+            {influencer.full_name || 'Unknown User'}
           </h3>
           
           <div className="flex items-center text-sm text-gray-600 mb-2">
@@ -71,7 +71,7 @@ export default function InfluencerCard({
             <div className="flex items-center">
               <Star className="w-4 h-4 fill-yellow-400 text-yellow-400 mr-1" />
               <span className="font-medium">4.9</span>
-              <span className="text-gray-500 ml-1">(247 reviews)</span>
+              <span className="text-gray-500 ml-1">(247)</span>
             </div>
           </div>
         </div>
